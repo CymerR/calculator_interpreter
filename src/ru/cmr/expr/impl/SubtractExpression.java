@@ -2,8 +2,9 @@ package ru.cmr.expr.impl;
 
 import ru.cmr.expr.Expression;
 import ru.cmr.expr.Operandable;
+import ru.cmr.expr.OperandableExpression;
 
-public class SubtractExpression implements Expression, Operandable<SubtractExpression> {
+public class SubtractExpression implements OperandableExpression<SubtractExpression> {
     private Expression leftOper, rightOper;
 
     private SubtractExpression() {}

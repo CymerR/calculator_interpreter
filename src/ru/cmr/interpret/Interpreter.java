@@ -1,6 +1,8 @@
 package ru.cmr.interpret;
 
 import ru.cmr.expr.Expression;
+import ru.cmr.expr.Operandable;
+import ru.cmr.expr.OperandableExpression;
 import ru.cmr.expr.impl.AddExpression;
 import ru.cmr.expr.impl.NumExpression;
 import ru.cmr.expr.impl.SubtractExpression;
@@ -9,7 +11,8 @@ import java.util.ArrayDeque;
 
 public class Interpreter {
 
-    private ArrayDeque<Expression> numStack, opsStack;
+    private final ArrayDeque<Expression> numStack;
+    private final ArrayDeque<OperandableExpression> opsStack;
 
     public Interpreter(String input) {
         numStack = new ArrayDeque<>();
@@ -31,10 +34,12 @@ public class Interpreter {
         for (var op : opsStack) {
             var right = numStack.pop();
             var left = numStack.pop();
-
+            op.leftOperand(left);
+            op.rightOperand(right);
+            numStack.addLast(op);
 //            System.out.printf("%s ", op.toString());
         }
-
-        return 0.0;
+        System.out.println(numStack);
+        return numStack.pop().eval();
     }
 }
