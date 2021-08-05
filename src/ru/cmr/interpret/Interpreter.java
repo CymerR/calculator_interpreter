@@ -17,20 +17,21 @@ public class Interpreter {
 
         var strs = input.split(" ");
         for (String word : strs) {
-            if (word.equals("+")) {
-                opsStack.addLast(AddExpression.start());
-            } else if (word.equals("-")) {
-                opsStack.addLast(SubtractExpression.start());
-            } else {
-                numStack.addLast(new NumExpression(Double.parseDouble(word)));
+            switch (word) {
+                case "+" -> opsStack.addFirst(AddExpression.start());
+                case "-" -> opsStack.addFirst(SubtractExpression.start());
+                default -> numStack.addFirst(new NumExpression(Double.parseDouble(word)));
             }
         }
     }
 
     public double eval() {
+        System.out.println(opsStack);
+        System.out.println(numStack);
         for (var op : opsStack) {
-            
+//            System.out.printf("%s ", op.toString());
         }
-        return opsStack.getFirst().eval();
+
+        return 0.0;
     }
 }

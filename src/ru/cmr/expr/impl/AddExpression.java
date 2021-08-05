@@ -28,4 +28,10 @@ public class AddExpression implements Expression {
     public double eval() {
         return leftOper.eval() + rightOper.eval();
     }
+
+
+    @Override
+    public String toString() {
+        return "+";
+    }
 }
