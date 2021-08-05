@@ -32,6 +32,8 @@ public class AddExpression implements OperandableExpression<AddExpression> {
 
     @Override
     public String toString() {
-        return "+";
+        var l = leftOper == null ? "null" : leftOper.toString();
+        var r = rightOper == null ? "null" : rightOper.toString();
+        return "{" + l + " + " + r + "}";
     }
 }
