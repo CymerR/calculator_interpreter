@@ -1,8 +1,11 @@
 package ru.cmr.expr.impl;
 
 import ru.cmr.expr.Expression;
+import ru.cmr.expr.LeftOperandable;
+import ru.cmr.expr.Operandable;
+import ru.cmr.expr.RightOperandable;
 
-public class AddExpression implements Expression {
+public class AddExpression implements Expression, Operandable<AddExpression> {
 
     private Expression leftOper, rightOper;
 

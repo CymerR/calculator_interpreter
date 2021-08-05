@@ -29,6 +29,9 @@ public class Interpreter {
         System.out.println(opsStack);
         System.out.println(numStack);
         for (var op : opsStack) {
+            var right = numStack.pop();
+            var left = numStack.pop();
+
 //            System.out.printf("%s ", op.toString());
         }
 
