@@ -3,10 +3,7 @@ package ru.cmr.interpret;
 import ru.cmr.expr.Expression;
 import ru.cmr.expr.Operandable;
 import ru.cmr.expr.OperandableExpression;
-import ru.cmr.expr.impl.AddExpression;
-import ru.cmr.expr.impl.MultExpression;
-import ru.cmr.expr.impl.NumExpression;
-import ru.cmr.expr.impl.SubtractExpression;
+import ru.cmr.expr.impl.*;
 
 import java.util.ArrayDeque;
 
@@ -27,6 +24,11 @@ public class Interpreter {
                 case "-" -> opsStack.addLast(SubtractExpression.start());
                 case "*" -> {
                     opsStack.addFirst(MultExpression.start());
+                    numStack.addFirst(numStack.pop());
+                    isNextLast = true;
+                }
+                case "/" -> {
+                    opsStack.addFirst(DivExpression.start());
                     numStack.addFirst(numStack.pop());
                     isNextLast = true;
                 }
