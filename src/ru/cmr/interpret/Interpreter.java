@@ -4,6 +4,7 @@ import ru.cmr.expr.Expression;
 import ru.cmr.expr.Operandable;
 import ru.cmr.expr.OperandableExpression;
 import ru.cmr.expr.impl.AddExpression;
+import ru.cmr.expr.impl.MultExpression;
 import ru.cmr.expr.impl.NumExpression;
 import ru.cmr.expr.impl.SubtractExpression;
 
@@ -19,11 +20,24 @@ public class Interpreter {
         opsStack = new ArrayDeque<>();
 
         var strs = input.split(" ");
+        var isNextLast = false;
         for (String word : strs) {
             switch (word) {
                 case "+" -> opsStack.addFirst(AddExpression.start());
                 case "-" -> opsStack.addFirst(SubtractExpression.start());
-                default -> numStack.addFirst(new NumExpression(Double.parseDouble(word)));
+                case "*" -> {
+                    opsStack.addLast(MultExpression.start());
+                    numStack.addLast(numStack.pop());
+                    isNextLast = true;
+                }
+                default -> {
+                    if (isNextLast) {
+                        numStack.addLast(new NumExpression(Double.parseDouble(word)));
+                        isNextLast = false;
+                    } else {
+                        numStack.push(new NumExpression(Double.parseDouble(word)));
+                    }
+                }
             }
         }
     }
