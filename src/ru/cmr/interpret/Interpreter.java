@@ -23,19 +23,19 @@ public class Interpreter {
         var isNextLast = false;
         for (String word : strs) {
             switch (word) {
-                case "+" -> opsStack.addFirst(AddExpression.start());
-                case "-" -> opsStack.addFirst(SubtractExpression.start());
+                case "+" -> opsStack.addLast(AddExpression.start());
+                case "-" -> opsStack.addLast(SubtractExpression.start());
                 case "*" -> {
-                    opsStack.addLast(MultExpression.start());
-                    numStack.addLast(numStack.pop());
+                    opsStack.addFirst(MultExpression.start());
+                    numStack.addFirst(numStack.pop());
                     isNextLast = true;
                 }
                 default -> {
                     if (isNextLast) {
-                        numStack.addLast(new NumExpression(Double.parseDouble(word)));
+                        numStack.addFirst(new NumExpression(Double.parseDouble(word)));
                         isNextLast = false;
                     } else {
-                        numStack.push(new NumExpression(Double.parseDouble(word)));
+                        numStack.addLast(new NumExpression(Double.parseDouble(word)));
                     }
                 }
             }
