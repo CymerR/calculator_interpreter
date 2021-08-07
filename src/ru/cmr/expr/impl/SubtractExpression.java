@@ -1,8 +1,10 @@
 package ru.cmr.expr.impl;
 
 import ru.cmr.expr.Expression;
+import ru.cmr.expr.Operandable;
+import ru.cmr.expr.OperandableExpression;
 
-public class SubtractExpression implements Expression {
+public class SubtractExpression implements OperandableExpression<SubtractExpression> {
     private Expression leftOper, rightOper;
 
     private SubtractExpression() {}
@@ -26,5 +28,12 @@ public class SubtractExpression implements Expression {
     @Override
     public double eval() {
         return leftOper.eval() - rightOper.eval();
+    }
+
+    @Override
+    public String toString() {
+        var l = leftOper == null ? "null" : leftOper.toString();
+        var r = rightOper == null ? "null" : rightOper.toString();
+        return "{" + l + " - " + r + "}";
     }
 }
