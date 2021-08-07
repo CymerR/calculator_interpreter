@@ -3,9 +3,7 @@ package ru.cmr.interpret;
 import ru.cmr.expr.Expression;
 import ru.cmr.expr.Operandable;
 import ru.cmr.expr.OperandableExpression;
-import ru.cmr.expr.impl.AddExpression;
-import ru.cmr.expr.impl.NumExpression;
-import ru.cmr.expr.impl.SubtractExpression;
+import ru.cmr.expr.impl.*;
 
 import java.util.ArrayDeque;
 
@@ -19,11 +17,29 @@ public class Interpreter {
         opsStack = new ArrayDeque<>();
 
         var strs = input.split(" ");
+        var isNextLast = false;
         for (String word : strs) {
             switch (word) {
-                case "+" -> opsStack.addFirst(AddExpression.start());
-                case "-" -> opsStack.addFirst(SubtractExpression.start());
-                default -> numStack.addFirst(new NumExpression(Double.parseDouble(word)));
+                case "+" -> opsStack.addLast(AddExpression.start());
+                case "-" -> opsStack.addLast(SubtractExpression.start());
+                case "*" -> {
+                    opsStack.addFirst(MultExpression.start());
+                    numStack.addFirst(numStack.pop());
+                    isNextLast = true;
+                }
+                case "/" -> {
+                    opsStack.addFirst(DivExpression.start());
+                    numStack.addFirst(numStack.pop());
+                    isNextLast = true;
+                }
+                default -> {
+                    if (isNextLast) {
+                        numStack.addFirst(new NumExpression(Double.parseDouble(word)));
+                        isNextLast = false;
+                    } else {
+                        numStack.addLast(new NumExpression(Double.parseDouble(word)));
+                    }
+                }
             }
         }
     }
