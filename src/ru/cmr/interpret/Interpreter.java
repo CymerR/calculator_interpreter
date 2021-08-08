@@ -16,7 +16,7 @@ public class Interpreter {
         numStack = new ArrayDeque<>();
         opsStack = new ArrayDeque<>();
 
-        var strs = input.split(" ");
+        var strs = input.split("\\s+");
         var isNextLast = false;
         for (String word : strs) {
             switch (word) {
@@ -24,14 +24,29 @@ public class Interpreter {
                 case "-" -> opsStack.addLast(SubtractExpression.start());
                 case "*" -> {
                     opsStack.addFirst(MultExpression.start());
-                    numStack.addFirst(numStack.pop());
+                    Expression lastNum;
+                    if (isNextLast) {
+                        lastNum = numStack.removeFirst();
+                    } else {
+                        lastNum = numStack.removeLast();
+                    }
+                    numStack.addFirst(lastNum);
                     isNextLast = true;
                 }
                 case "/" -> {
                     opsStack.addFirst(DivExpression.start());
-                    numStack.addFirst(numStack.pop());
+                    Expression lastNum;
+                    if (isNextLast) {
+                        lastNum = numStack.removeFirst();
+                    } else {
+                        lastNum = numStack.removeLast();
+                    }
+                    numStack.addFirst(lastNum);
                     isNextLast = true;
                 }
+//                case "(" -> isNextLast = true;
+//                case ")" -> {}//isNextLast = false;
+
                 default -> {
                     if (isNextLast) {
                         numStack.addFirst(new NumExpression(Double.parseDouble(word)));
