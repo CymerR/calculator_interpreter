@@ -1,6 +1,7 @@
 package ru.cmr.expr.impl;
 
 import ru.cmr.expr.*;
+import ru.cmr.interpret.ToString;
 
 public class AddExpression implements OperandableExpression<AddExpression> {
 
@@ -32,8 +33,18 @@ public class AddExpression implements OperandableExpression<AddExpression> {
 
     @Override
     public String toString() {
-        var l = leftOper == null ? "null" : leftOper.toString();
-        var r = rightOper == null ? "null" : rightOper.toString();
-        return "{" + l + " + " + r + "}";
+//        var l = leftOper == null ? "null" : leftOper.toString();
+//        var r = rightOper == null ? "null" : rightOper.toString();
+//        return "{" + l + " + " + r + "}";
+        return new ToString("+", this).get();
+    }
+    @Override
+    public Expression getLeft() {
+        return leftOper;
+    }
+
+    @Override
+    public Expression getRight() {
+        return rightOper;
     }
 }
